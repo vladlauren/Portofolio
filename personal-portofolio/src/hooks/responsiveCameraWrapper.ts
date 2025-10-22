@@ -1,20 +1,26 @@
-import { useEffect } from 'react'
-import { useThree } from '@react-three/fiber'
+import { useEffect } from 'react';
+import { useThree } from '@react-three/fiber';
 
 export function useResponsiveCamera() {
-    const { camera, size } = useThree()
+  const { camera, size } = useThree();
 
-    useEffect(() => {
-        if (!camera) return
+  useEffect(() => {
+    if (!camera) return;
 
-        const width = size.width
-        let z = 9
+    const aspect = size.width / size.height;
 
-        if (width < 600) z = 17 // mobile
-        else if (width < 900) z = 8 // tablet
-        else z = 7 // desktop
+    let z = 9;
 
-        camera.position.set(0, 0, z)
-        camera.updateProjectionMatrix()
-    }, [size, camera])
+    if (size.width < 600) {
+      z = 9;
+    } else if (size.width < 900) {
+      z = 9;
+    } else {
+      z = 9;
+    }
+
+    camera.position.set(0, 0, z);
+    camera.lookAt(0, 0, 0); // always look at center
+    camera.updateProjectionMatrix();
+  }, [size, camera]);
 }

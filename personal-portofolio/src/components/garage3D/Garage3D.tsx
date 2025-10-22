@@ -2,26 +2,20 @@
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import GarageModel from './GarageModel'
-import { useResponsiveCamera} from "@/hooks/responsiveCameraWrapper";
-
-function ResponsiveSceneWrapper({ children }: { children: React.ReactNode }) {
-    useResponsiveCamera()
-    return <>{children}</>
-}
+import {useResponsiveGarageLayout} from "@/hooks/responsiveGarageLayout";
 
 export default function Garage3D() {
+    const { modelScale, modelPosition} = useResponsiveGarageLayout()
 
     return (
         <div className={"w-full h-screen bg-black"} >
-            <Canvas camera={{ fov: 70 }}>
-                <ResponsiveSceneWrapper>
+            <Canvas camera={{ fov: 90 }}>
                 <ambientLight intensity={1} />
                 <pointLight position={[10, 10, 10]} />
 
                 <Suspense fallback={null}>
-                    <GarageModel />
+                        <GarageModel scale={modelScale} position={modelPosition}/>
                 </Suspense>
-                </ResponsiveSceneWrapper>
             </Canvas>
         </div>
     )
